@@ -332,6 +332,18 @@ func dial(ctx context.Context, url string, opts *DialOptions) (*Conn, *http.Resp
 	}
 }
 
+func Wrap(ws js.Value) (*Conn, error) {
+	v, err := wsjs.Wrap(ws)
+	if err != nil {
+		return nil, err
+	}
+	c := &Conn{
+		ws: v,
+	}
+	c.init()
+	return c, nil
+}
+
 // Reader attempts to read a message from the connection.
 // The maximum time spent waiting is bounded by the context.
 func (c *Conn) Reader(ctx context.Context) (MessageType, io.Reader, error) {

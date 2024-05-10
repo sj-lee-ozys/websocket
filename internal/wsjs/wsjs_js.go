@@ -27,6 +27,19 @@ func handleJSError(err *error, onErr func()) {
 	}
 }
 
+func Wrap(ws js.Value) (c WebSocket, err error) {
+	defer handleJSError(&err, func() {
+		c = WebSocket{}
+	})
+
+	c = WebSocket{
+		v: ws,
+	}
+
+	c.setBinaryType("arraybuffer")
+	return c, nil
+}
+
 // New is a wrapper around the javascript WebSocket constructor.
 func New(url string, protocols []string) (c WebSocket, err error) {
 	defer handleJSError(&err, func() {
