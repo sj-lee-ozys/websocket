@@ -74,7 +74,8 @@ func (c WebSocket) addEventListener(eventType string, fn func(e js.Value)) func(
 		fn(args[0])
 		return nil
 	})
-	c.v.Call("addEventListener", eventType, f)
+	// c.v.Call("addEventListener", eventType, f)
+	c.v.Set("on"+eventType, f)
 
 	return func() {
 		c.v.Call("removeEventListener", eventType, f)
